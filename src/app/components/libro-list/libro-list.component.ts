@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Libro } from '../../models/libro';
 import { LibroService } from '../../services/libro.service';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-libro-list',
@@ -17,7 +18,8 @@ export class LibroListComponent implements OnInit {
 
   constructor(
     private libroService: LibroService,
-    private router: Router
+    private router: Router,
+    private modalService: ModalService
   ) { }
 
   ngOnInit(): void {
@@ -50,17 +52,25 @@ export class LibroListComponent implements OnInit {
   }
 
   onDelete(libro: Libro): void {
-    if (confirm(`¿Estás seguro de que quieres eliminar "${libro.titulo}"?`)) {
-      this.libroService.deleteLibro(libro.id!).subscribe({
-        next: () => {
-          this.loadLibros(); // Recargar la lista
-        },
-        error: (error) => {
-          this.error = 'Error al eliminar el libro';
-          console.error('Error:', error);
-        }
-      });
-    }
+    this.modalService.openConfirmModal({
+      title: 'Confirmar eliminación',
+      message: `¿Estás seguro de que quieres eliminar el libro "${libro.titulo}"?`,
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      type: 'danger'
+    }).then((confirmed: boolean) => {
+      if (confirmed) {
+        this.libroService.deleteLibro(libro.id!).subscribe({
+          next: () => {
+            this.loadLibros(); // Recargar la lista
+          },
+          error: (error) => {
+            this.error = 'Error al eliminar el libro';
+            console.error('Error:', error);
+          }
+        });
+      }
+    });
   }
 
   onCreateNew(): void {

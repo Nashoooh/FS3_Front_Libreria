@@ -1,0 +1,35 @@
+<div *ngIf="modalData" class="modal-overlay" (click)="onBackdropClick($event)">
+  <div class="modal-container">
+    <div class="modal-header" [ngClass]="'modal-header-' + modalData.type">
+      <h3 class="modal-title">{{ modalData.title }}</h3>
+      <button class="modal-close" (click)="onCancel()" aria-label="Cerrar">
+        ✕
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="modal-icon" [ngClass]="'modal-icon-' + modalData.type">
+        <span *ngIf="modalData.type === 'danger'">⚠️</span>
+        <span *ngIf="modalData.type === 'warning'">⚠️</span>
+        <span *ngIf="modalData.type === 'info'">ℹ️</span>
+      </div>
+      <p class="modal-message">{{ modalData.message }}</p>
+    </div>
+    
+    <div class="modal-footer">
+      <button 
+        type="button" 
+        class="btn btn-secondary" 
+        (click)="onCancel()">
+        {{ modalData.cancelText }}
+      </button>
+      <button 
+        type="button" 
+        class="btn" 
+        [ngClass]="'btn-' + modalData.type"
+        (click)="onConfirm()">
+        {{ modalData.confirmText }}
+      </button>
+    </div>
+  </div>
+</div>
