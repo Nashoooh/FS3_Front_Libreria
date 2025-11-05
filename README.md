@@ -1,59 +1,130 @@
-# Fs3Libreria
+# 📚 Librería FS3 - Frontend Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.14.
+Sistema de gestión de biblioteca desarrollado en Angular 18 con arquitectura MVVM, diseñado para trabajar con una API REST de Spring Boot.
 
-## Development server
+## 🏗️ Arquitectura
 
-To start a local development server, run:
+### **Patrón MVVM (Model-View-ViewModel)**
 
+- **Model** (`models/libro.ts`): Interfaces que definen la estructura de datos
+- **View** (Templates HTML): Interfaz de usuario
+- **ViewModel** (Componentes): Lógica de presentación y manejo del estado
+- **Services** (`services/libro.service.ts`): Comunicación con la API y lógica de negocio
+
+### **Estructura de Componentes**
+
+```
+src/app/
+├── models/
+│   └── libro.ts                 # Interfaz del modelo Libro
+├── services/
+│   └── libro.service.ts         # Servicio para API calls
+├── components/
+│   ├── libro-list/             # Lista de libros
+│   ├── libro-form/             # Formulario crear/editar
+│   └── libro-detail/           # Detalles del libro
+└── app.routes.ts               # Configuración de rutas
+```
+
+## 🔧 Características
+
+### **CRUD Completo de Libros**
+- ✅ **Create**: Agregar nuevos libros
+- ✅ **Read**: Listar y ver detalles de libros
+- ✅ **Update**: Editar libros existentes
+- ✅ **Delete**: Eliminar libros
+
+### **Funcionalidades**
+- 📱 Diseño responsive
+- 🔄 Estados de carga y error
+- 🎨 UI moderna y limpia
+- 🛣️ Navegación por rutas
+- 📝 Formularios reactivos
+- 🔍 Validación de campos
+
+## 🚀 Instalación y Uso
+
+### **1. Prerrequisitos**
+```bash
+Node.js >= 18
+Angular CLI >= 18
+```
+
+### **2. Instalar dependencias**
+```bash
+npm install
+```
+
+### **3. Configurar Backend**
+Asegúrate de que tu API de Spring Boot esté ejecutándose en:
+```
+http://localhost:8080/api/libros
+```
+
+Si tu backend está en otra URL, modifica `src/app/services/libro.service.ts`:
+```typescript
+private apiUrl = 'TU_URL_AQUI/api/libros';
+```
+
+### **4. Ejecutar la aplicación**
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+La aplicación estará disponible en: `http://localhost:4200`
 
-## Code scaffolding
+## 🌐 API Endpoints Esperados
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+La aplicación espera que tu backend de Spring Boot exponga estos endpoints:
 
-```bash
-ng generate component component-name
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/libros` | Obtener todos los libros |
+| GET | `/api/libros/{id}` | Obtener libro por ID |
+| POST | `/api/libros` | Crear nuevo libro |
+| PUT | `/api/libros/{id}` | Actualizar libro |
+| DELETE | `/api/libros/{id}` | Eliminar libro |
+
+### **Modelo de Datos**
+```typescript
+interface Libro {
+  id?: number;
+  titulo: string;
+  autor: string;
+  anioPublicacion: number;
+  genero: string;
+}
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 📱 Rutas de la Aplicación
 
-```bash
-ng generate --help
+| Ruta | Componente | Descripción |
+|------|------------|-------------|
+| `/libros` | LibroListComponent | Lista de libros |
+| `/libro-form` | LibroFormComponent | Crear nuevo libro |
+| `/libro-form/:id` | LibroFormComponent | Editar libro existente |
+| `/libro-detail/:id` | LibroDetailComponent | Ver detalles del libro |
+
+## 🔧 Configuración CORS
+
+Para que funcione correctamente con tu backend de Spring Boot, asegúrate de tener configurado CORS:
+
+```java
+@Configuration
+@EnableWebMvc
+public class WebConfig implements WebMvcConfigurer {
+    
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**")
+                .allowedOrigins("http://localhost:4200")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+    }
+}
 ```
 
-## Building
+---
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Desarrollado con ❤️ usando Angular 18 y TypeScript**

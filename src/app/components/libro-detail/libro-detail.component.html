@@ -1,0 +1,78 @@
+<div class="detail-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    Cargando detalles del libro...
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error">
+    {{ error }}
+    <button class="btn btn-secondary" (click)="onBack()">Volver a la lista</button>
+  </div>
+
+  <!-- Book Details -->
+  <div *ngIf="!loading && !error && libro" class="book-detail-card">
+    <div class="detail-header">
+      <button class="btn btn-secondary" (click)="onBack()">
+        ← Volver a la lista
+      </button>
+      <div class="detail-actions">
+        <button class="btn btn-warning" (click)="onEdit()">
+          ✏️ Editar
+        </button>
+        <button class="btn btn-danger" (click)="onDelete()">
+          🗑️ Eliminar
+        </button>
+      </div>
+    </div>
+
+    <div class="book-content">
+      <div class="book-cover">
+        <div class="cover-placeholder">
+          📚
+        </div>
+      </div>
+
+      <div class="book-info">
+        <h1 class="book-title">{{ libro.titulo }}</h1>
+        
+        <div class="book-details">
+          <div class="detail-item">
+            <span class="label">Autor:</span>
+            <span class="value">{{ libro.autor }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="label">Año de Publicación:</span>
+            <span class="value">{{ libro.anioPublicacion }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="label">Género:</span>
+            <span class="value genre-tag">{{ libro.genero }}</span>
+          </div>
+          
+          <div class="detail-item" *ngIf="libro.id">
+            <span class="label">ID:</span>
+            <span class="value">#{{ libro.id }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Info Section -->
+    <div class="additional-info">
+      <h3>Información Adicional</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Década:</span>
+          <span class="info-value">{{ (libro.anioPublicacion / 10) | number:'1.0-0' }}0s</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Siglo:</span>
+          <span class="info-value">{{ libro.anioPublicacion <= 2000 ? 'XX' : 'XXI' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
