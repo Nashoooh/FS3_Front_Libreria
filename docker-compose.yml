@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fs3-libreria-frontend
+    ports:
+      - "4200:80"
+    networks:
+      - libreria-network
+    environment:
+      - NODE_ENV=production
+
+networks:
+  libreria-network:
+    driver: bridge
